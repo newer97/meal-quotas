@@ -18,21 +18,9 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'cashier']);
 
-        $c = User::factory()->create([
-            'name' => 'cashier',
-            'email' => 'c@example.com',
-        ]);
-        $c->assignRole('cashier');
-
-        $a = User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@example.com',
-        ]);
-        $a->assignRole('admin');
-
         $sa = User::factory()->create([
             'name' => 'superadmin',
-            'email' => 'superadmin@example.com'
+            'username' => 'naser'
         ]);
         $sa->assignRole('superadmin');
 
