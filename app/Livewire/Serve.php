@@ -3,7 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\Meal;
+use App\Models\MealServe;
 use App\Models\Student;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -37,38 +40,76 @@ class Serve extends Component
     {
         $this->validate(
             [
-                'studentNumber' => 'required|numeric|exists:students,student_number',
-            ],
-            [
-                'studentNumber.exists' => 'Student with student number :input does not exist.',
+                'studentNumber' => 'required|numeric',
             ]
         );
+
+        $student = Student::where('student_number', $this->studentNumber)->first();
+        if (!$student) {
+            return $this->addError('error_serve', 'Student not found');
+        }
 
         $meal = Meal::find($this->selectedMealId);
         if (!$meal) {
             return $this->addError('error_serve', 'Meal not found');
         }
-        $currentTime = now()->format('H:i:s');
 
-        log::info(
-            "student number: " . $this->studentNumber . " meal id: " . $this->selectedMealId . " time: " . $currentTime
-        );
-        return $this->addError(
-            'error_serve',
-            "student number: " . $this->studentNumber . " meal id: " . $this->selectedMealId . " time: " . $currentTime
-        );
+        if ($student->status !== 'active') {
+            MealServe::create([
+                "meal_id" => $meal->id,
+                "student_id" => $student->id,
+                "status" => "failed",
+                "failure_reason" => "Student not active",
+                "served_by" => Auth::user()->id,
+            ]);
+            return $this->addError('error_serve', 'Student not active');
+        }
 
-        // check if the time is between the meal time and the meal end time
-        $currentTime = now()->format('H:i:s');
-        if ($currentTime < $meal->start_time || $currentTime > $meal->end_time) {
+        $currentTime = Carbon::now();
+        $start = Carbon::parse($meal->start_time);
+        $end = Carbon::parse($meal->end_time);
+
+        if (!$currentTime->between($start, $end)) {
+            MealServe::create([
+                "meal_id" => $meal->id,
+                "student_id" => $student->id,
+                "status" => "failed",
+                "failure_reason" => "Meal not served at this time",
+                "served_by" => Auth::user()->id,
+
+            ]);
             return $this->addError('error_serve', 'Meal not served at this time');
         }
 
+        //check if already served
 
+        $alreadyServed = MealServe::where('meal_id', $meal->id)
+            ->where('student_id', $student->id)
+            ->where("status", "successful")
+            ->whereDate('served_at', '=', Carbon::today()->toDateString())
+            ->first();
+        if ($alreadyServed) {
+            MealServe::create([
+                "meal_id" => $meal->id,
+                "student_id" => $student->id,
+                "status" => "failed",
+                "failure_reason" => "Meal already served",
+                "served_by" => Auth::user()->id,
+            ]);
+            return $this->addError('error_serve', 'Meal already served');
+        }
 
+        MealServe::create([
+            "meal_id" => $meal->id,
+            "student_id" => $student->id,
+            "status" => "successful",
+            "served_by" => Auth::user()->id,
+        ]);
 
-        //return error served
         $this->showModal = false;
-        $meal = Meal::find($this->selectedMealId);
+        return $this->addError(
+            'error_serve',
+            "served"
+        );
     }
 }

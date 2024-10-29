@@ -46,9 +46,6 @@
                     </div>
                     <div id="reader" width="600px" wire:ignore></div>
                     <div>
-                        @error('studentNumber')
-                            <p class="text-red-500 text-sm">{{ $message }}</p>
-                        @enderror
                         @error('error_serve')
                             <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
