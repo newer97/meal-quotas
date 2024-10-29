@@ -32,7 +32,7 @@
                         @error('studentNumber')
                             <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
-                        @error('served')
+                        @error('error_serve')
                             <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
                     </div>
