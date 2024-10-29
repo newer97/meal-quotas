@@ -1,5 +1,18 @@
 <div class="min-h-screen flex justify-center items-center bg-gray-100">
+    <script defer>
+        function onScanSuccess(qrCodeMessage) {
+            document.getElementById("student_number").setAttribute("value", qrCodeMessage);
+            document.getElementById("student_number").value = qrCodeMessage;
+            document.getElementById('student_number').blur();
+            document.getElementById('serve-button-confirm').click();
+        }
 
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // for example:
+            console.warn(`Code scan error = ${error}`);
+        }
+    </script>
     <div class="flex flex-col w-full max-w-4xl p-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             @foreach ($meals as $meal)
@@ -16,18 +29,19 @@
             x-cloak x-show="$wire.showModal" x-init="$watch('$wire.showModal', value => {
                 if (value) {
                     $nextTick(() => {
-                        document.getElementById('student_number').focus();
+                        window.html5QrcodeScanner.render(onScanSuccess, onScanFailure);
                     });
                 }
             })">
             <div class="relative mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                 <div class="mt-3 text-center">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Enter Student Number</h3>
-                    <div class="mt-2 px-7 py-3">
-                        <input type="text" wire:model.defer="studentNumber"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            id="student_number" placeholder="Enter student number" />
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Scan Student ID</h3>
+                    <div class="mt-2 px-7 py-3" x-data="{ studentNumber: '' }">
+                        <input type="text" wire:model.defer="studentNumber" disabled
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                            id="student_number" placeholder="Enter student number" x-model="studentNumber" />
                     </div>
+                    <div id="reader" width="600px" wire:ignore></div>
                     <div>
                         @error('studentNumber')
                             <p class="text-red-500 text-sm">{{ $message }}</p>
@@ -37,7 +51,7 @@
                         @enderror
                     </div>
                     <div class="items-center px-4 py-3">
-                        <button wire:click="serve"
+                        <button wire:click="serve" id="serve-button-confirm" hidden
                             class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
                             Confirm Order
                         </button>

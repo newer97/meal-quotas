@@ -51,7 +51,11 @@ class Serve extends Component
         $currentTime = now()->format('H:i:s');
 
         log::info(
-            "time: " . now()->format('H:i:s') . " meal start time: " . $meal->start_time . " meal end time: " . $meal->end_time . " is active " . (($currentTime > $meal->start_time && $currentTime < $meal->end_time) ? 'true' : 'false')
+            "student number: " . $this->studentNumber . " meal id: " . $this->selectedMealId . " time: " . $currentTime
+        );
+        return $this->addError(
+            'error_serve',
+            "student number: " . $this->studentNumber . " meal id: " . $this->selectedMealId . " time: " . $currentTime
         );
 
         // check if the time is between the meal time and the meal end time
@@ -64,8 +68,6 @@ class Serve extends Component
 
 
         //return error served
-        return $this->addError("served", "Error served");
-
         $this->showModal = false;
         $meal = Meal::find($this->selectedMealId);
     }
