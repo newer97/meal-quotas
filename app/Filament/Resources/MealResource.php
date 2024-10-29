@@ -44,8 +44,8 @@ class MealResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('start_time'),
-                Tables\Columns\TextColumn::make('end_time'),
+                Tables\Columns\TextColumn::make('start_time')->time(),
+                Tables\Columns\TextColumn::make('end_time')->time(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

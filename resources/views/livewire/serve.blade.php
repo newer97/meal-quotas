@@ -19,8 +19,11 @@
                 <div class="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition"
                     wire:click="selectMeal({{ $meal->id }})">
                     <h3 class="text-lg font-semibold">{{ $meal->name }}</h3>
-                    <p class="text-gray-600">{{ date('g:i A', strtotime($meal->start_time)) }} -
-                        {{ date('g:i A', strtotime($meal->end_time)) }}</p>
+                    <p class="text-gray-600">
+                        {{ \Carbon\Carbon::parse($meal->start_time)->setTimezone(config('app.user_timezone'))->format('g:i A') }}
+                        -
+                        {{ \Carbon\Carbon::parse($meal->end_time)->setTimezone(config('app.user_timezone'))->format('g:i A') }}
+                    </p>
                 </div>
             @endforeach
         </div>

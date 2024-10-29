@@ -123,4 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    //TODO: find a way to dynamically set the user timezone
+    'user_timezone' => env('APP_USER_TIMEZONE', 'Asia/Riyadh'),
+
 ];
