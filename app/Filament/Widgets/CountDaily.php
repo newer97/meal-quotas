@@ -23,7 +23,10 @@ class CountDaily extends ChartWidget
 
     protected static ?string $heading = 'Daily Serves';
 
-    protected static ?int $sort = 3;
+    protected static ?int $sort = 4;
+    protected array|string|int $columnSpan = 'full';
+
+
 
     protected function getType(): string
     {

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class FailureReasons extends ChartWidget
 {
-    protected static ?int $sort = 4;
+    protected static ?int $sort = 3;
     protected static ?string $heading = 'Failure Reasons';
 
     protected array|string|int $columnSpan = 1;
