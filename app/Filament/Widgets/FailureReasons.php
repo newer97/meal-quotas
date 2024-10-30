@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class FailureReasons extends BaseWidget
 {
-    protected static ?int $sort = 3;
+    protected static ?int $sort = 4;
 
     protected function getTableQuery(): Builder
     {
@@ -32,7 +32,9 @@ class FailureReasons extends BaseWidget
             ->query($this->getTableQuery())
             ->columns([
                 TextColumn::make('failure_reason')
-                    ->label('Reason'),
+                    ->label('Reason')
+                    ->badge()
+                    ->color('danger'),
                 TextColumn::make('total')
                     ->label('Count')
                     ->numeric(),
