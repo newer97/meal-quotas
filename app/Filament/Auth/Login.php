@@ -22,7 +22,7 @@ class Login extends BaseAuth
     }
     protected function getLoginFormComponent(): Component
     {
-        return TextInput::make('username')
+        return TextInput::make('email') // we need to keep the name as email for the error message to work.
             ->label('Username')
             ->required()
             ->autocomplete()
@@ -33,7 +33,7 @@ class Login extends BaseAuth
     protected function getCredentialsFromFormData(array $data): array
     {
         return [
-            'username' => $data['username'],
+            'username' => $data['email'],
             'password'  => $data['password'],
         ];
     }
