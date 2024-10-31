@@ -3,15 +3,18 @@
 namespace App\Filament\Widgets;
 
 use App\Models\MealServe;
+use Carbon\Carbon;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\ChartWidget;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class FailureReasons extends ChartWidget
 {
+    use InteractsWithPageFilters;
     protected static ?int $sort = 3;
     protected static ?string $heading = 'Failure Reasons';
 
@@ -43,9 +46,21 @@ class FailureReasons extends ChartWidget
 
     protected function getTableQuery(): Builder
     {
+        $startDate = ! is_null($this->filters['startDate'] ?? null) ?
+            Carbon::parse($this->filters['startDate'])->startOfDay() :
+            now()->startOfYear();
+
+        $endDate = ! is_null($this->filters['endDate'] ?? null) ?
+            Carbon::parse($this->filters['endDate'])->endOfDay() :
+            now()->endOfDay();
         return MealServe::query()
             ->select('failure_reason', DB::raw('count(*) as total'))
             ->whereNotNull('failure_reason')
+            ->whereBetween('served_at', [
+                $startDate,
+                $endDate,
+            ])
+
             ->groupBy('failure_reason')->orderBy('total', 'desc');
     }
 
