@@ -15,6 +15,8 @@ class Serve extends Component
     public $selectedMealId;
     public $showModal = false;
     public $studentNumber;
+    public $studentId;
+    public $mode = 'manual';
 
     public function render()
     {
@@ -45,13 +47,27 @@ class Serve extends Component
         );
 
 
-        $student = Student::where('student_number', $this->studentNumber)->first();
+        $student = $this->validateStudent();
         if (!$student) {
+            MealServe::create([
+                "meal_id" => $this->selectedMealId,
+                "student_id" => null,
+                "status" => "failed",
+                "failure_reason" => "Student not found",
+                "served_by" => Auth::user()->id,
+            ]);
             return $this->addError('error_serve', 'Student not found');
         }
 
         $meal = Meal::find($this->selectedMealId);
         if (!$meal) {
+            MealServe::create([
+                "meal_id" => null,
+                "student_id" => $student->id,
+                "status" => "failed",
+                "failure_reason" => "Meal not found",
+                "served_by" => Auth::user()->id,
+            ]);
             return $this->addError('error_serve', 'Meal not found');
         }
 
@@ -110,5 +126,37 @@ class Serve extends Component
         $this->studentNumber = '';
         $this->selectedMealId = null;
         $this->dispatch('meal-served');
+    }
+
+    private function validateStudent()
+    {
+        switch ($this->mode) {
+            case 'manual':
+                $this->validate(
+                    [
+                        'studentNumber' => 'required|numeric',
+                        'studentId' => 'required|numeric',
+                    ]
+                );
+                return Student::where('student_number', '=', $this->studentNumber)
+                    ->where('national_id', '=', $this->studentId)
+                    ->first();
+            case 'scan':
+                $this->validate(
+                    [
+                        'studentNumber' => 'required|numeric',
+                    ]
+                );
+                return Student::where('student_number', '=', $this->studentNumber)
+                    ->first();
+        }
+    }
+
+    public function switchMode($mode)
+    {
+        if ($mode !== 'manual' && $mode !== 'scan') {
+            return;
+        }
+        $this->mode = $mode;
     }
 }
