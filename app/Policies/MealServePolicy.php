@@ -48,6 +48,11 @@ class MealServePolicy
         return $user->hasRole(['superadmin']);
     }
 
+    public function deleteAny(User $user): bool
+    {
+        return $user->hasRole(['superadmin']);
+    }
+
     /**
      * Determine whether the user can restore the model.
      */
@@ -56,10 +61,20 @@ class MealServePolicy
         return $user->hasRole(['superadmin']);
     }
 
+    public function restoreAny(User $user): bool
+    {
+        return $user->hasRole(['superadmin']);
+    }
+
     /**
      * Determine whether the user can permanently delete the model.
      */
     public function forceDelete(User $user, MealServe $mealServe): bool
+    {
+        return $user->hasRole(['superadmin']);
+    }
+
+    public function forceDeleteAny(User $user): bool
     {
         return $user->hasRole(['superadmin']);
     }

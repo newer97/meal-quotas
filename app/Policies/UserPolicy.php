@@ -31,7 +31,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->hasRole(['superadmin', 'admin']);
     }
 
     /**
@@ -39,13 +39,18 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->hasRole(['superadmin', 'admin']);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, User $model): bool
+    {
+        return $user->hasRole(['superadmin']);
+    }
+
+    public function deleteAny(User $user): bool
     {
         return $user->hasRole(['superadmin']);
     }
@@ -58,10 +63,20 @@ class UserPolicy
         return $user->hasRole(['superadmin']);
     }
 
+    public function restoreAny(User $user): bool
+    {
+        return $user->hasRole(['superadmin']);
+    }
+
     /**
      * Determine whether the user can permanently delete the model.
      */
     public function forceDelete(User $user, User $model): bool
+    {
+        return $user->hasRole(['superadmin']);
+    }
+
+    public function forceDeleteAny(User $user): bool
     {
         return $user->hasRole(['superadmin']);
     }
