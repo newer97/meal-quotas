@@ -17,7 +17,11 @@ class MealResource extends Resource
 {
     protected static ?string $model = Meal::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+
+    protected static ?string $navigationGroup = 'Meals';
+
+
 
     public static function form(Form $form): Form
     {
