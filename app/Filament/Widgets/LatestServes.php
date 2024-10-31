@@ -11,7 +11,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 class LatestServes extends BaseWidget
 {
     protected static ?int $sort = 5;
-    protected int | string | array $columnSpan = 1;
+    protected int | string | array $columnSpan = 'full';
 
 
 
