@@ -13,6 +13,13 @@
             console.warn(`Code scan error = ${error}`);
         }
     </script>
+    @script
+        <script>
+            $wire.on('meal-served', () => {
+                alert('Meal served successfully');
+            });
+        </script>
+    @endscript
     <div class="flex flex-col w-full max-w-4xl p-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             @foreach ($meals as $meal)

@@ -44,6 +44,7 @@ class Serve extends Component
             ]
         );
 
+
         $student = Student::where('student_number', $this->studentNumber)->first();
         if (!$student) {
             return $this->addError('error_serve', 'Student not found');
@@ -81,7 +82,6 @@ class Serve extends Component
             return $this->addError('error_serve', 'Meal not served at this time');
         }
 
-        //check if already served
 
         $alreadyServed = MealServe::where('meal_id', $meal->id)
             ->where('student_id', $student->id)
@@ -107,9 +107,8 @@ class Serve extends Component
         ]);
 
         $this->showModal = false;
-        return $this->addError(
-            'error_serve',
-            "served"
-        );
+        $this->studentNumber = '';
+        $this->selectedMealId = null;
+        $this->dispatch('meal-served');
     }
 }
