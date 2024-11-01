@@ -15,9 +15,13 @@
         <script defer>
             function onScanSuccess(qrCodeMessage) {
                 const studentNumberInput = document.getElementById("student_number");
+                if (studentNumberInput.value) {
+                    return;
+                }
                 studentNumberInput.value = qrCodeMessage;
                 studentNumberInput.dispatchEvent(new Event('input'));
                 document.getElementById('serve-button-confirm').click();
+
             }
 
             function onScanFailure(error) {
