@@ -57,16 +57,16 @@ class CountMonthly extends ChartWidget
                 [
                     'label' => 'Successful Serves',
                     'data' => array_column($monthlyData, 'successful'),
-                    'backgroundColor' => 'rgba(74, 222, 128,0.2)',
-                    'borderColor' => 'rgb(74, 222, 128)',
+                    'backgroundColor' => 'rgba(0, 255, 100, 0.5)',
+                    'borderColor' => 'rgba(0, 255, 100, 1)',
                     'fill' => 'start',
 
                 ],
                 [
                     'label' => 'Failed Serves',
                     'data' => array_column($monthlyData, 'failed'),
-                    'backgroundColor' => 'rgba(248, 113, 113, 0.2)',
-                    'borderColor' => 'rgb(248, 113, 113)',
+                    'backgroundColor' => 'rgba(255, 113, 113, 0.5)',
+                    'borderColor' => 'rgb(255, 113, 113)',
                     'fill' => 'start',
                 ],
             ],

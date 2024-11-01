@@ -1,5 +1,5 @@
 <div class="min-h-screen flex justify-center items-center">
-    <div class="max-w-xl py-6 px-8 h-80 mt-20 bg-white rounded shadow-xl w-1/4">
+    <div class="max-w-xl py-6 px-8 h-80 mt-20 bg-white rounded shadow-xl min-w-[25vw]">
         <div class="mb-6">
             <label for="username" class="block text-gray-800 font-bold">username:</label>
             <input type="text" name="username" id="username" placeholder="username" wire:model="username"

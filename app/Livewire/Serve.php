@@ -16,7 +16,7 @@ class Serve extends Component
     public $showModal = false;
     public $studentNumber;
     public $studentId;
-    public $mode = 'manual';
+    public $mode = 'scan';
 
     public function render()
     {
@@ -85,6 +85,12 @@ class Serve extends Component
         $currentTime = Carbon::now();
         $start = Carbon::parse($meal->start_time);
         $end = Carbon::parse($meal->end_time);
+
+        if ($start->isAfter($end)) {
+            // to fix meals that span across midnight
+            $end->addDay();
+        }
+
 
         if (!$currentTime->between($start, $end)) {
             MealServe::create([
