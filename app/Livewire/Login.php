@@ -29,7 +29,6 @@ class Login extends Component
             return;
         }
 
-        Log::info('User logged in: ' . Auth::user()->username);
 
         return redirect('/');
     }

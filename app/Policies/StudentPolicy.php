@@ -14,7 +14,6 @@ class StudentPolicy
      */
     public function viewAny(User $user): bool
     {
-        Log::info('User: ' . $user->id . ' is trying to view students. role: ' . $user->roles->pluck('name')->implode(', '));
         return $user->hasRole(['superadmin', 'admin']);
     }
 
@@ -47,7 +46,6 @@ class StudentPolicy
      */
     public function delete(User $user, Student $student): bool
     {
-        Log::info('User: ' . $user->id . ' is trying to delete student: ' . $student->id . "role: " . $user->roles->pluck('name')->implode(', '));
         return $user->hasRole(['superadmin']);
     }
 
