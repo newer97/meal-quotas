@@ -2,19 +2,20 @@
 
 namespace App\Policies;
 
-use App\Models\Student;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Log;
+use App\Models\Student;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class StudentPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['superadmin', 'admin']);
+        return $user->can('view_any_student');
     }
 
     /**
@@ -22,7 +23,7 @@ class StudentPolicy
      */
     public function view(User $user, Student $student): bool
     {
-        return $user->hasRole(['superadmin', 'admin']);
+        return $user->can('view_student');
     }
 
     /**
@@ -30,7 +31,7 @@ class StudentPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(['superadmin', 'admin']);
+        return $user->can('create_student');
     }
 
     /**
@@ -38,7 +39,7 @@ class StudentPolicy
      */
     public function update(User $user, Student $student): bool
     {
-        return $user->hasRole(['superadmin', 'admin']);
+        return $user->can('update_student');
     }
 
     /**
@@ -46,36 +47,62 @@ class StudentPolicy
      */
     public function delete(User $user, Student $student): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->can('delete_student');
     }
 
+    /**
+     * Determine whether the user can bulk delete.
+     */
     public function deleteAny(User $user): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->can('delete_any_student');
     }
 
     /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Student $student): bool
-    {
-        return $user->hasRole(['superadmin']);
-    }
-    public function restoreAny(User $user): bool
-    {
-        return $user->hasRole(['superadmin']);
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete.
      */
     public function forceDelete(User $user, Student $student): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->can('force_delete_student');
     }
 
+    /**
+     * Determine whether the user can permanently bulk delete.
+     */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->can('force_delete_any_student');
+    }
+
+    /**
+     * Determine whether the user can restore.
+     */
+    public function restore(User $user, Student $student): bool
+    {
+        return $user->can('restore_student');
+    }
+
+    /**
+     * Determine whether the user can bulk restore.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->can('restore_any_student');
+    }
+
+    /**
+     * Determine whether the user can replicate.
+     */
+    public function replicate(User $user, Student $student): bool
+    {
+        return $user->can('replicate_student');
+    }
+
+    /**
+     * Determine whether the user can reorder.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->can('reorder_student');
     }
 }

@@ -46,7 +46,7 @@ class UserResource extends Resource
                     ->relationship("roles", "name")
                     ->native(false)
                     ->disableOptionWhen(
-                        fn(string $value): bool => $value == Role::findByName('superadmin')->id
+                        fn(string $value): bool => $value == Role::findByName('super_admin')->id
                             && $user?->hasRole(['admin'])
                     )
                     ->disabled(fn(string $context): bool => $user?->hasRole(['admin']) && $context === 'edit')

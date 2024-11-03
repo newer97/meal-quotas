@@ -2,18 +2,20 @@
 
 namespace App\Policies;
 
-use App\Models\MealServe;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use App\Models\MealServe;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MealServePolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['admin', 'superadmin']);
+        return $user->can('view_any_meal::serve');
     }
 
     /**
@@ -21,7 +23,7 @@ class MealServePolicy
      */
     public function view(User $user, MealServe $mealServe): bool
     {
-        return $user->hasRole(['admin', 'superadmin']);
+        return $user->can('view_meal::serve');
     }
 
     /**
@@ -29,7 +31,7 @@ class MealServePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole(['admin', 'superadmin', 'cashier']);
+        return $user->can('create_meal::serve');
     }
 
     /**
@@ -37,7 +39,7 @@ class MealServePolicy
      */
     public function update(User $user, MealServe $mealServe): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->can('update_meal::serve');
     }
 
     /**
@@ -45,37 +47,62 @@ class MealServePolicy
      */
     public function delete(User $user, MealServe $mealServe): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->can('delete_meal::serve');
     }
 
+    /**
+     * Determine whether the user can bulk delete.
+     */
     public function deleteAny(User $user): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->can('delete_any_meal::serve');
     }
 
     /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, MealServe $mealServe): bool
-    {
-        return $user->hasRole(['superadmin']);
-    }
-
-    public function restoreAny(User $user): bool
-    {
-        return $user->hasRole(['superadmin']);
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete.
      */
     public function forceDelete(User $user, MealServe $mealServe): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->can('force_delete_meal::serve');
     }
 
+    /**
+     * Determine whether the user can permanently bulk delete.
+     */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->hasRole(['superadmin']);
+        return $user->can('force_delete_any_meal::serve');
+    }
+
+    /**
+     * Determine whether the user can restore.
+     */
+    public function restore(User $user, MealServe $mealServe): bool
+    {
+        return $user->can('restore_meal::serve');
+    }
+
+    /**
+     * Determine whether the user can bulk restore.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->can('restore_any_meal::serve');
+    }
+
+    /**
+     * Determine whether the user can replicate.
+     */
+    public function replicate(User $user, MealServe $mealServe): bool
+    {
+        return $user->can('replicate_meal::serve');
+    }
+
+    /**
+     * Determine whether the user can reorder.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->can('reorder_meal::serve');
     }
 }

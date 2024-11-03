@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'superadmin']);
+        Role::create(['name' => 'super_admin']);
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'cashier']);
 
@@ -21,12 +21,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'superadmin',
             'username' => 'naser'
         ]);
-        $sa->assignRole('superadmin');
+        $sa->assignRole('super_admin');
 
         $this->call([
             StudentSeeder::class,
             MealSeeder::class,
             MealServeSeeder::class,
+            ShieldSeeder::class,
         ]);
     }
 }
