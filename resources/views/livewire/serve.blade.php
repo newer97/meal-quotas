@@ -50,6 +50,11 @@
                         </p>
                     </div>
                 @endforeach
+                @if ($meals->isEmpty())
+                    <div class="rounded-lg shadow-md p-4 col-span-3 text-center">
+                        <h3 class="text-lg font-semibold">No meals available at this time</h3>
+                    </div>
+                @endif
             </div>
 
             <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center"

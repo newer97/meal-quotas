@@ -20,8 +20,13 @@ class Serve extends Component
 
     public function render()
     {
+
+        $measl = Meal::where('start_time', '<=', Carbon::now())
+            ->where('end_time', '>=', Carbon::now())
+            ->get();
+
         return view('livewire.serve', [
-            'meals' => Meal::all(),
+            'meals' => $measl,
         ]);
     }
 
