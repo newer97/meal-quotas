@@ -2,6 +2,8 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\MealsTypes;
+use App\Filament\Widgets\ServesTable;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
@@ -12,6 +14,17 @@ use Filament\Pages\Page;
 class MealsDashboard extends Page
 {
     use HasFiltersForm;
+
+
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+
+    protected static string $view = 'filament.pages.meals-dashboard';
+
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Meals';
+    }
 
     public function filtersForm(Form $form): Form
     {
@@ -30,20 +43,13 @@ class MealsDashboard extends Page
                     ->columns(2),
             ]);
     }
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
-    protected static string $view = 'filament.pages.meals-dashboard';
-
-    public static function getNavigationLabel(): string
-    {
-        return 'Meals';
-    }
 
     public function getFooterWidgets(): array
     {
 
         return [
-            \App\Filament\Widgets\MealsTypes::make(['filters' => $this->filters]),
+            MealsTypes::make(['filters' => $this->filters]),
+            ServesTable::make(['filters' => $this->filters]),
         ];
     }
 }

@@ -14,6 +14,10 @@ class MealsTypes extends ChartWidget
 
     protected static ?string $heading = 'Meals Served';
 
+    protected static bool $isDiscovered = false;
+
+    protected array|string|int $columnSpan = 'full';
+
     protected static ?int $sort = 2;
 
     protected function getType(): string
