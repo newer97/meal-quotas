@@ -11,6 +11,8 @@ class Student extends Model
     /** @use HasFactory<\Database\Factories\StudentFactory> */
     use HasFactory, SoftDeletes;
 
+    protected $connection = 'oracle';
+
     protected $fillable = [
         'student_number',
         'national_id',

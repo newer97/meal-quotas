@@ -62,6 +62,25 @@ return [
             ]) : [],
         ],
 
+        'oracle' => [
+            'driver'         => 'oracle',
+            'tns'            => env('DB_TNS_ORACLE', ''),
+            'host'           => env('DB_HOST_ORACLE', ''),
+            'port'           => env('DB_PORT_ORACLE', '1521'),
+            'database'       => env('DB_DATABASE_ORACLE', ''),
+            'service_name'   => env('DB_SERVICE_NAME_ORACLE', ''),
+            'username'       => env('DB_USERNAME_ORACLE', ''),
+            'password'       => env('DB_PASSWORD_ORACLE', ''),
+            'charset'        => env('DB_CHARSET', 'AL32UTF8'),
+            'prefix'         => env('DB_PREFIX', ''),
+            'prefix_schema'  => env('DB_SCHEMA_PREFIX', ''),
+            'edition'        => env('DB_EDITION', 'ora$base'),
+            'server_version' => env('DB_SERVER_VERSION', '11g'),
+            'load_balance'   => env('DB_LOAD_BALANCE', 'yes'),
+            'dynamic'        => [],
+            'max_name_len'   => env('ORA_MAX_NAME_LEN', 30),
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
@@ -147,7 +166,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [

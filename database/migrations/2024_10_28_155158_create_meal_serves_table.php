@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('meal_serves', function (Blueprint $table) {
             $table->id();
             $table->foreignId('meal_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('student_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('student_id')->nullable();
             $table->foreignId('served_by')->nullable()->constrained('users')->cascadeOnDelete();
             $table->timestamp('served_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->enum('status', ['successful', 'failed']);
