@@ -38,11 +38,11 @@ class ServesTable extends BaseWidget
                 TextColumn::make('meal.name')->searchable(),
                 TextColumn::make('student.name')->searchable(),
                 TextColumn::make('failure_reason')
-                    ->default('successful')
+                    ->default('Successful')
                     ->searchable()
                     ->badge()
                     ->color(fn(string $state) => match ($state) {
-                        'successful' => 'success',
+                        'Successful' => 'success',
                         default => 'danger',
                     }),
                 TextColumn::make('servedBy.name')->searchable(),
@@ -61,6 +61,11 @@ class ServesTable extends BaseWidget
                 SelectFilter::make('failure_reason')
                     ->options(
                         MealServe::select('failure_reason')->whereNotNull('failure_reason')->distinct()->get()->pluck('failure_reason', 'failure_reason')->toArray()
+                    ),
+                SelectFilter::make('served_by')
+                    ->label('Served By')
+                    ->options(
+                        MealServe::with('servedBy')->get()->pluck('servedBy.name', 'servedBy.id')->toArray()
                     ),
             ])->defaultSort('served_at', "desc");
     }
